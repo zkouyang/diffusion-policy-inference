@@ -1,0 +1,7 @@
+__pycache__
+.vscode/
+*.log
+maze_car.ttt
+/data
+*.mp4
+*.lprof

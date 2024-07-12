@@ -1,0 +1,33 @@
+name: &name sustech_dish
+dataset_dir: &dataset_dir /home/xuhang/SUSTech-HKU/dataset/sustech_dish
+
+## version.1 - multi-view observation are independently encoded
+dataset_target: &dataset_target diffusion_policy.dataset.sustech_image_dataset.SustechImageDataset
+image_shape: &image_shape [3, 120, 160] 
+shape_meta: &shape_meta
+  # acceptable types: rgb, low_dim
+  obs:
+    images:
+      shape: *image_shape
+      type: rgb
+    qpos:
+      shape: [8]
+      type: low_dim
+  action:
+    shape: [16]
+
+
+dataset:
+  _target_: *dataset_target
+  shape_meta: *shape_meta
+  dataset_dir: *dataset_dir
+  horizon: ${horizon}
+  pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
+  pad_after: ${eval:'${n_action_steps}-1'}
+  n_obs_steps: ${dataset_obs_steps}
+  use_cache: False
+  seed: 42
+  val_ratio: 0.2
+  max_train_episodes: null
+  camera_names: ["cam_front"]
+  num_episodes: 50
